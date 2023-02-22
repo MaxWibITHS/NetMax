@@ -1,0 +1,118 @@
+﻿@using VOD.Common.DTOs;
+@using VOD.Common.Services;
+
+@inject IAdminService AdminService
+
+@if (Alert != string.Empty)
+{
+    <div class="d-flex">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>@Alert</strong>
+            <button type="button" @onclick="CloseAlert" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+}
+
+@if (Navigation == PageType.Create)
+{
+    <ChangeSimilarFilm Page="@Navigation" OnChanged="OnChange"></ChangeSimilarFilm>
+}
+@if (Navigation == PageType.Delete)
+{
+    <ChangeSimilarFilm Page="@Navigation" OnChanged="OnChange" Model="SimilarFilm"></ChangeSimilarFilm>
+}
+
+
+<div class="d-flex me-1">
+    <a href="/" class="btn btn-outline-secondary rounded-0 me-1">Home</a>
+    <button type="button" class="btn btn-outline-primary rounded-0 me-1" @onclick="()=>ChangePageType(PageType.Index)">Index</button>
+    <button type="button" class="btn btn-outline-success rounded-0" @onclick="()=>ChangePageType(PageType.Create)">Create</button>
+</div>
+
+<SimilarFilmIndex OnClick="OnClick" Model="Model"></SimilarFilmIndex>
+
+@code {
+    string Navigation = string.Empty;
+    List<SimilarFilmDTO> Model { get; set; } = new();
+    string Alert = string.Empty;
+    public SimilarFilmDTO SimilarFilm { get; set; } = new();
+
+    void ChangePageType(string pageType) => Navigation = pageType;
+    void CloseAlert() => Alert = string.Empty;
+
+    async Task OnClick(ClickRefModel<SimilarFilmDTO> model)
+    {
+        if (model.PageType.Equals(PageType.Delete))
+            //FilmGenre = await AdminService.SingleAsync<FilmGenreDTO>($"filmgenre/{model.dto}") ?? new();
+            SimilarFilm = model.dto;
+
+        ChangePageType(model.PageType);
+    }
+
+    async Task OnChange(string alert)
+    {
+        try
+        {
+            Alert = alert;
+            Model = await AdminService.GetAsync<SimilarFilmDTO>("similarfilm");
+            ChangePageType(PageType.Get);
+        }
+        catch
+        {
+            Alert = "Kunde inte skapa/ändra/ta bort film";
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //VISAR HELA LISTAN
+        Alert = string.Empty;
+        Model = await AdminService.GetAsync<SimilarFilmDTO>($"similarfilm");
+
+
+        //var course = await AdminService.SingleAsync<FilmDTO>($"film/1");
+
+
+        //await AdminService.CreateAsync<CreateFilmDTO>($"film", new CreateFilmDTO
+        //    {
+        //        Title = "MinNyaTitel",
+        //        Released = new DateTime(2021, 01, 01),
+        //        DirectorId = 1,
+        //        Free = true,
+        //        Description = "Hej på dig",
+        //        Duration = "1.23.01",
+        //        FilmUrl = "https://www.youtube.com/",
+        //        FilmThumbnail = "....",
+
+        //    });
+
+        //Model = await AdminService.GetAsync<FilmDTO>($"film?freeOnly=false");
+
+
+
+
+        //await AdminService.EditAsync<FilmEditDTO>($"film/3",
+        //new FilmEditDTO
+        //    {
+        //        Id = 3,
+        //        Title = "MinuppdateradeTitel",
+        //        Released = new DateTime(2015, 02, 03),
+        //        DirectorId = 1,
+        //        Free = true,
+        //        Description = "Uppdaterad",
+        //        Duration = "1.23.01",
+        //        FilmUrl = "https://www.youtube.com/",
+        //        FilmThumbnail = "....",
+
+        //    });
+
+        //Model = await AdminService.GetAsync<FilmDTO>($"film?freeOnly=false");
+
+
+
+        //await AdminService.DeleteAsync<FilmDTO>($"film/3");
+
+    }
+}
+

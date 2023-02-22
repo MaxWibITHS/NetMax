@@ -7,11 +7,16 @@ using System.Threading.Tasks;
 
 namespace VOD.Database.Entities
 {
-    public class FilmGenre : IEntity
+    public class FilmGenre : IReferenceEntity
     {
         [Required]
-        public int Id { get; set; }
-        [Required]
-        public int FilmId { get; set; }     
-    }
+        public int FilmId { get; set; } 
+       
+        public int? GenreId { get; set; }
+
+		public virtual Film Film { get; set; } = null!;
+		public virtual Genre Genre { get; set; } = null!;
+	}
 }
+
+

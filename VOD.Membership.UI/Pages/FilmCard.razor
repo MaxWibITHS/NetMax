@@ -1,0 +1,14 @@
+﻿
+<div class="card m-3" style="width: 18rem;">
+    <img src="@Film.FilmThumbnail" class="card-img-top" alt="Film image">
+    <div class="card-body">
+        <h5 class="card-title">@Film.Title</h5>
+        <p class="card-text">@Film.Description</p>
+        <a href="Film/@Film.Id" class="btn btn-primary">Go to movie</a>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public FilmDTO Film { get; set; } = new();
+}

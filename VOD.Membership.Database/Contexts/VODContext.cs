@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using static System.Collections.Specialized.BitVector32;
-using VOD.Database.Entities;
+﻿
+using Microsoft.EntityFrameworkCore;
 
 namespace VOD.Database.Contexts
 {
@@ -21,15 +15,47 @@ namespace VOD.Database.Contexts
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
 
-            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
-        }
+			foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+			{
+				relationship.DeleteBehavior = DeleteBehavior.Restrict;
+			}
+			/* Composit Keys */
+			modelBuilder.Entity<SimilarFilm>().HasKey(ci => new { ci.FilmId, ci.SimilarFilmId });
+			modelBuilder.Entity<FilmGenre>().HasKey(ci => new { ci.FilmId, ci.GenreId });
+
+			/* Configuring related tables for the Film table*/
+			modelBuilder.Entity<Film>(entity =>
+			{
+				entity
+					// For each film in the Film Entity,
+					// reference relatred films in the SimilarFilms entity
+					// with the ICollection<SimilarFilms>
+					.HasMany(d => d.SimilarFilms)
+					.WithOne(p => p.Film)
+					.HasForeignKey(d => d.FilmId)
+					// To prevent cycles or multiple cascade paths.
+					// Neded when seeding similar films data.
+					.OnDelete(DeleteBehavior.ClientSetNull);
+
+				// Configure a many-to-many realtionship between genres
+				// and films using the FilmGenre connection entity.
+				entity.HasMany(d => d.Genres)
+					  .WithMany(p => p.Films)
+					  .UsingEntity<FilmGenre>()
+					
+					  // Specify the table name for the connection table
+					  // to avoid duplicate tables (FilmGenre and FilmGenres)
+					  // in the database.
+					  .ToTable("FilmGenres");
+
+			});
+		}
     }
 }
+
+
 

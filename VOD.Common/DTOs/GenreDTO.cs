@@ -9,10 +9,36 @@ namespace VOD.Common.DTOs
 {
     public class GenreDTO
     {
-        public int Id { get; set; }
-        
-        public string Name { get; set; }
-        public List <FilmGenreDTO> FilmGenre { get; set; }
-    }
+		public GenreDTO()
+		{
+			Films = new List<FilmDTO>();
+		}
+		public int Id { get; set; }
+		
+		public string Name { get; set; }
+		public List <FilmDTO>? Films { get; set; }
+		/// 
+		/// 
+		//public List<FilmGenreDTO>? FleraGenres { get; set; }
+
+	}
+	public class CreateGenreDTO
+	{
+		public string Name { get; set; }
+	}
+
+	public class GenreEditDTO : CreateDirectorDTO
+	{
+		public int Id { get; set; }
+	}
 }
+
+
+
+
+
+
+
+
+
 

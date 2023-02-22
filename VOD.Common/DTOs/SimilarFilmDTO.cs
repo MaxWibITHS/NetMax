@@ -6,15 +6,23 @@ using System.Threading.Tasks;
 
 namespace VOD.Common.DTOs
 {
-    public class SimilarFilmDTO
-    {
-        public int Id { get; set; }
-        public int ParentFilmId { get; set; }
+	public class SimilarFilmDTO
+	{
+		public int FilmId { get; set; }
+		public int SimilarFilmId { get; set; }
 
-        public List <FilmDTO> ListSimilarFilms { get; set; }
-
-    }
+	}
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

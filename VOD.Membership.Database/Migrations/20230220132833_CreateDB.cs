@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace VOD.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateEntityTables : Migration
+    public partial class CreateDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,29 +37,19 @@ namespace VOD.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SimilarFilms",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ParentFilmId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SimilarFilms", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Films",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    Released = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DirectorId = table.Column<int>(type: "int", nullable: false),
+                    Released = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DirectorId = table.Column<int>(type: "int", nullable: true),
+                    Free = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    FilmUrl = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilmUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FilmThumbnail = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,14 +66,12 @@ namespace VOD.Database.Migrations
                 name: "FilmGenres",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
                     FilmId = table.Column<int>(type: "int", nullable: false),
-                    GenreId = table.Column<int>(type: "int", nullable: true)
+                    GenreId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FilmGenres", x => x.Id);
+                    table.PrimaryKey("PK_FilmGenres", x => new { x.FilmId, x.GenreId });
                     table.ForeignKey(
                         name: "FK_FilmGenres_Films_FilmId",
                         column: x => x.FilmId,
@@ -100,33 +87,27 @@ namespace VOD.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FilmSimilarFilm",
+                name: "SimilarFilms",
                 columns: table => new
                 {
-                    ListSimilarFilmsId = table.Column<int>(type: "int", nullable: false),
+                    FilmId = table.Column<int>(type: "int", nullable: false),
                     SimilarFilmId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FilmSimilarFilm", x => new { x.ListSimilarFilmsId, x.SimilarFilmId });
+                    table.PrimaryKey("PK_SimilarFilms", x => new { x.FilmId, x.SimilarFilmId });
                     table.ForeignKey(
-                        name: "FK_FilmSimilarFilm_Films_ListSimilarFilmsId",
-                        column: x => x.ListSimilarFilmsId,
+                        name: "FK_SimilarFilms_Films_FilmId",
+                        column: x => x.FilmId,
+                        principalTable: "Films",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SimilarFilms_Films_SimilarFilmId",
+                        column: x => x.SimilarFilmId,
                         principalTable: "Films",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_FilmSimilarFilm_SimilarFilms_SimilarFilmId",
-                        column: x => x.SimilarFilmId,
-                        principalTable: "SimilarFilms",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FilmGenres_FilmId",
-                table: "FilmGenres",
-                column: "FilmId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_FilmGenres_GenreId",
@@ -139,8 +120,8 @@ namespace VOD.Database.Migrations
                 column: "DirectorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FilmSimilarFilm_SimilarFilmId",
-                table: "FilmSimilarFilm",
+                name: "IX_SimilarFilms_SimilarFilmId",
+                table: "SimilarFilms",
                 column: "SimilarFilmId");
         }
 
@@ -151,16 +132,13 @@ namespace VOD.Database.Migrations
                 name: "FilmGenres");
 
             migrationBuilder.DropTable(
-                name: "FilmSimilarFilm");
+                name: "SimilarFilms");
 
             migrationBuilder.DropTable(
                 name: "Genres");
 
             migrationBuilder.DropTable(
                 name: "Films");
-
-            migrationBuilder.DropTable(
-                name: "SimilarFilms");
 
             migrationBuilder.DropTable(
                 name: "Directors");

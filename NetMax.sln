@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOD.Admin.UI", "VOD.Admin.UI\VOD.Admin.UI.csproj", "{A27D96FB-186E-4920-95D6-CC0FDFFC2CBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.Admin.UI", "VOD.Admin.UI\VOD.Admin.UI.csproj", "{A27D96FB-186E-4920-95D6-CC0FDFFC2CBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOD.Common", "VOD.Common\VOD.Common.csproj", "{C5595AC5-6005-4A3F-AC33-48208F40C8EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.Common", "VOD.Common\VOD.Common.csproj", "{C5595AC5-6005-4A3F-AC33-48208F40C8EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOD.Database", "VOD.Membership.Database\VOD.Database.csproj", "{0FC91CA6-F870-42A6-BB58-2FD3490537E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.Database", "VOD.Membership.Database\VOD.Database.csproj", "{0FC91CA6-F870-42A6-BB58-2FD3490537E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VOD.API", "VOD.API\VOD.API.csproj", "{44414B7E-F580-45D1-9867-D39061A2F175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.API", "VOD.API\VOD.API.csproj", "{44414B7E-F580-45D1-9867-D39061A2F175}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VOD.Membership.UI", "VOD.Membership.UI\VOD.Membership.UI.csproj", "{47F8E0EC-E8EA-4BFA-A136-C5C84DB612DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{44414B7E-F580-45D1-9867-D39061A2F175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44414B7E-F580-45D1-9867-D39061A2F175}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44414B7E-F580-45D1-9867-D39061A2F175}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47F8E0EC-E8EA-4BFA-A136-C5C84DB612DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47F8E0EC-E8EA-4BFA-A136-C5C84DB612DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47F8E0EC-E8EA-4BFA-A136-C5C84DB612DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47F8E0EC-E8EA-4BFA-A136-C5C84DB612DF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

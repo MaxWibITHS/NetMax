@@ -1,0 +1,22 @@
+﻿@page "/film/{Id:int}"
+@inject IMembershipService Service
+
+<h3 class="text-center">Film</h3>
+
+<a class="btn btn-primary rounded-0 mb-1" href="/">
+    <i class="oi oi-arrow-left"></i><span class="vertical-align">Back</span>
+</a>
+
+
+<Marquee Film="Model"/>
+
+@code {
+    [Parameter] public int? Id { get; set; }
+    public FilmDTO Model { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await Service.GetFilmAsync(Id);
+    }
+}

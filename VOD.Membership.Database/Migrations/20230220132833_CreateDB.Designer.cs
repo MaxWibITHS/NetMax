@@ -12,8 +12,8 @@ using VOD.Database.Contexts;
 namespace VOD.Database.Migrations
 {
     [DbContext(typeof(VODContext))]
-    [Migration("20230202143349_CreateEntityTables")]
-    partial class CreateEntityTables
+    [Migration("20230220132833_CreateDB")]
+    partial class CreateDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace VOD.Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("FilmSimilarFilm", b =>
-                {
-                    b.Property<int>("ListSimilarFilmsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SimilarFilmId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ListSimilarFilmsId", "SimilarFilmId");
-
-                    b.HasIndex("SimilarFilmId");
-
-                    b.ToTable("FilmSimilarFilm");
-                });
 
             modelBuilder.Entity("VOD.Database.Entities.Director", b =>
                 {
@@ -71,15 +56,27 @@ namespace VOD.Database.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("DirectorId")
+                    b.Property<int?>("DirectorId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Duration")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilmThumbnail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilmUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Released")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("Free")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Released")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -95,25 +92,17 @@ namespace VOD.Database.Migrations
 
             modelBuilder.Entity("VOD.Database.Entities.FilmGenre", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
                     b.Property<int>("FilmId")
                         .HasColumnType("int");
 
                     b.Property<int?>("GenreId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("FilmId");
+                    b.HasKey("FilmId", "GenreId");
 
                     b.HasIndex("GenreId");
 
-                    b.ToTable("FilmGenres");
+                    b.ToTable("FilmGenres", (string)null);
                 });
 
             modelBuilder.Entity("VOD.Database.Entities.Genre", b =>
@@ -136,33 +125,17 @@ namespace VOD.Database.Migrations
 
             modelBuilder.Entity("VOD.Database.Entities.SimilarFilm", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FilmId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ParentFilmId")
+                    b.Property<int>("SimilarFilmId")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.HasKey("FilmId", "SimilarFilmId");
+
+                    b.HasIndex("SimilarFilmId");
 
                     b.ToTable("SimilarFilms");
-                });
-
-            modelBuilder.Entity("FilmSimilarFilm", b =>
-                {
-                    b.HasOne("VOD.Database.Entities.Film", null)
-                        .WithMany()
-                        .HasForeignKey("ListSimilarFilmsId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("VOD.Database.Entities.SimilarFilm", null)
-                        .WithMany()
-                        .HasForeignKey("SimilarFilmId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("VOD.Database.Entities.Film", b =>
@@ -170,24 +143,46 @@ namespace VOD.Database.Migrations
                     b.HasOne("VOD.Database.Entities.Director", "Director")
                         .WithMany("Film")
                         .HasForeignKey("DirectorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Director");
                 });
 
             modelBuilder.Entity("VOD.Database.Entities.FilmGenre", b =>
                 {
-                    b.HasOne("VOD.Database.Entities.Film", null)
-                        .WithMany("FilmGenre")
+                    b.HasOne("VOD.Database.Entities.Film", "Film")
+                        .WithMany()
                         .HasForeignKey("FilmId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("VOD.Database.Entities.Genre", null)
-                        .WithMany("FilmGenre")
+                    b.HasOne("VOD.Database.Entities.Genre", "Genre")
+                        .WithMany()
                         .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Film");
+
+                    b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("VOD.Database.Entities.SimilarFilm", b =>
+                {
+                    b.HasOne("VOD.Database.Entities.Film", "Film")
+                        .WithMany("SimilarFilms")
+                        .HasForeignKey("FilmId")
+                        .IsRequired();
+
+                    b.HasOne("VOD.Database.Entities.Film", "Similar")
+                        .WithMany()
+                        .HasForeignKey("SimilarFilmId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Film");
+
+                    b.Navigation("Similar");
                 });
 
             modelBuilder.Entity("VOD.Database.Entities.Director", b =>
@@ -197,12 +192,7 @@ namespace VOD.Database.Migrations
 
             modelBuilder.Entity("VOD.Database.Entities.Film", b =>
                 {
-                    b.Navigation("FilmGenre");
-                });
-
-            modelBuilder.Entity("VOD.Database.Entities.Genre", b =>
-                {
-                    b.Navigation("FilmGenre");
+                    b.Navigation("SimilarFilms");
                 });
 #pragma warning restore 612, 618
         }

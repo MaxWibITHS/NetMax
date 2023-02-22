@@ -1,0 +1,83 @@
+﻿@using VOD.Common.DTOs;
+@using VOD.Common.Services;
+
+@inject IAdminService AdminService
+
+<div class="d-xl-flex justify-content-center">
+    <EditForm Model="@Model" OnValidSubmit="@OnFormSubmit" class="mb-5 border border-1 border-secondary p-2 w-25">
+        <DataAnnotationsValidator />
+        <h4>@Page Genre</h4>
+        <div class="mb-3">
+            @if (Page.Equals(PageType.Delete))
+            {
+                <InputText id="name" class="form-control me-2" @bind-Value="Model.Name" disabled placeholder="Name"></InputText>
+            }
+            else
+            {
+                <InputText id="name" class="form-control me-2" @bind-Value="Model.Name" placeholder="Name"></InputText>
+            }
+            <ValidationMessage For="@(() => Model.Name)" />
+        </div>
+        @if (!Page.Equals(PageType.Delete))
+        {
+
+            @*<InputSelect @bind-Value="Model.Name" class="form-control mb-3">
+                <option value=0>Name...</option>
+                @if (Directors != null)
+                {
+                    foreach (var director in Directors)
+                    {
+                        <option value="@director.Id">@director.Name</option>
+                    }
+                }
+            </InputSelect>*@
+
+          
+           
+            @*<InputSelect @bind-Value="Model.Genres" class="form-control mb-3">
+        <option value=0>Genre ...</option>
+        @if (Genres != null)
+        {
+        foreach (var genre in Genres)
+        {
+        <option value="@genre.Id">@genre.Name</option>
+        }
+        }
+        </InputSelect>*@ 
+        }
+        <button type="submit" class="btn btn-@(Page.Equals(PageType.Delete) ? "danger" : "primary") rounded-0">@Page</button>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter] public GenreDTO Model { get; set; } = new();
+    [Parameter] public string Page { get; set; } = string.Empty;
+    [Parameter] public EventCallback<string> OnChanged { get; set; }
+    //List<DirectorDTO> Directors { get; set; } = new();
+   
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Directors = await AdminService.GetAsync<DirectorDTO>("director");
+    }
+
+    private async Task OnFormSubmit()
+    {
+        try
+        {
+            if (Page.Equals(PageType.Create))
+                await AdminService.CreateAsync<GenreDTO>("genre", Model);
+            else if (Page.Equals(PageType.Edit))
+                await AdminService.EditAsync<GenreDTO>($"genre/{Model.Id}", Model);
+            else if (Page.Equals(PageType.Delete))
+                await AdminService.DeleteAsync<GenreDTO>($"genre/{Model.Id}");
+
+            await OnChanged.InvokeAsync("");
+        }
+        catch
+        {
+            await OnChanged.InvokeAsync("Couldn't create/edit/delete the course.");
+        }
+    }
+
+}

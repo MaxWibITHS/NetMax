@@ -1,1 +1,10 @@
-﻿
+﻿global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.EntityFrameworkCore;
+global using VOD.Database.Contexts;
+global using VOD.Database.Extensions;
+global using VOD.Database.Services;
+global using VOD.Database.Entities;
+global using VOD.Common.DTOs;
+global using static System.Collections.Specialized.BitVector32;
+global using VOD.Common.HttpClients;
