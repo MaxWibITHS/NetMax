@@ -36,16 +36,19 @@ namespace VOD.Database.Entities
 		[Required]
 		[Url]
 		public string FilmUrl { get; set; }
-        public string FilmThumbnail { get; set; }
+        public string? FilmThumbnail { get; set; } = null!;
+        public string? FilmMarquee { get; set; } = null!;
 
         public virtual ICollection<Genre>? Genres { get; set; } = null!;
 
         public virtual ICollection<SimilarFilm> SimilarFilms { get; set; } = null!;
+        public virtual ICollection<SimilarFilm> SimilarFilmObjekt { get; set; } = null!;
 
         public virtual Director Director { get; set; }
 
 	}
 }
+
 
 
 

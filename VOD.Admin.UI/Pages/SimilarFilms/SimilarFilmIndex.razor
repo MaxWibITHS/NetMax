@@ -17,7 +17,6 @@
                 <td>@item.SimilarFilmId</td>
                 <td>
                     <div class="d-flex me-1 justify-content-end">
-                        @*<button class="btn btn-outline-primary rounded-0 me-1" @onclick="@(() => OnClick.InvokeAsync(new ClickModel(PageType.Edit, item.FilmId)))">Edit</button>*@
                         <button class="btn btn-outline-danger rounded-0" @onclick="@(() => OnClick.InvokeAsync(new ClickRefModel<SimilarFilmDTO>(PageType.Delete, new SimilarFilmDTO())))">Delete</button>
                     </div>
                 </td>

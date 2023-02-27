@@ -5,7 +5,7 @@
 namespace VOD.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDB : Migration
+    public partial class CreateDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,7 +49,8 @@ namespace VOD.Database.Migrations
                     Description = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Duration = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FilmUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FilmThumbnail = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FilmThumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FilmMarquee = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

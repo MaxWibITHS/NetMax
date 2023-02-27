@@ -1,17 +1,37 @@
-﻿
+﻿@inject IMembershipService Service
+
 <div class="col d-flex justify-content-center">
-    <div class="card" style="width: 50rem;">
-    <img src="@Film.FilmThumbnail" class="card-img-top" alt="Film image">
+    <div class="black-text card" style="max-width: 1920px; width: 50rem; background-color: #A7A1A1">
+    <img src="@Film.FilmMarquee" class="card-img-top" alt="Film image">
     <div class="card-body">
         <h5 class="card-title">@Film.Title</h5>
         <p class="card-text">@Film.Description</p>
-        <a href="Film/@Film.Id" class="btn btn-primary">Go to movie</a>
-    </div>
+        </div>
+        <div>
+            <b class="card-text">Duration: @Film.Duration</b>
+            </div>
+            <div>
+            <b class="card-text margin-left:15px">Director: @Film.Director</b>
+        </div>
+            <div>
+            <b class="card-text">Released: @Film.Released</b>
+        </div>
+        <div>
+            <div class="card-text"> <u>Genre:</u> <br />
+                @foreach (var genre in Film.Genres)
+                {
+                    @genre <br />
+                }
+                    </div>
+      </div>
+        <a href="filmplayer/@Film.Id" class="btn btn-primary">Play</a>
 </div>
 </div>
-
 
 
 @code {
     [Parameter] public FilmDTO Film { get; set; } = new();
+    
 }
+
+

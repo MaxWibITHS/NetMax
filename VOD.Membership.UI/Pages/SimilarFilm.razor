@@ -1,14 +1,16 @@
-﻿
+﻿@inject IMembershipService Service
+
 <div class="black-text card m-3" style="width: 18rem; background-color: #A7A1A1">
     <img src="@Film.FilmThumbnail" class="card-img-top" alt="Film image">
     <div class="card-body">
         <h5 class="card-title">@Film.Title</h5>
         <p class="card-text">@Film.Description</p>
-        <a href="Film/@Film.Id" class="btn btn-primary">Go to movie</a>
+        <a href="filmplayer/@Film.Id" class="btn btn-primary">Play movie</a>
     </div>
 </div>
 
 
 @code {
-    [Parameter] public FilmDTO Film { get; set; } = new();
+    [Parameter] public int? Id { get; set; }
+    [Parameter] public FilmDTO Film { get; set; } = new(); 
 }

@@ -57,8 +57,6 @@ void ConfigureAutoMapper()
 		cfg.CreateMap<CreateFilmDTO, Film>()
 			.ForMember(dest => dest.Id, src => src.Ignore());
 
-		//.ForMember(dest => dest.Director, src => src.Ignore());
-
 		cfg.CreateMap<GenreEditDTO, Genre>();
 
 		cfg.CreateMap<Genre, GenreDTO>().ReverseMap();
@@ -71,7 +69,7 @@ void ConfigureAutoMapper()
 
 		cfg.CreateMap<SimilarFilm, SimilarFilmDTO>().ReverseMap();
 
-		//.ForMember(dest => dest.FilmId, src => src.Ignore());
+		
 
 	});
 	var mapper = config.CreateMapper();

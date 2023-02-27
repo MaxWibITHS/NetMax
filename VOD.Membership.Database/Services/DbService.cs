@@ -101,7 +101,7 @@ namespace VOD.Database.Services
 				_db.Set<TReferenceEntity>().Include(name).Load();
 		}
 
-		//
+	
 
 		public async Task<bool> DeleteSimilarFilmsAsync(int id)
 		{
@@ -156,9 +156,6 @@ namespace VOD.Database.Services
                 throw;
             }
         }
-
-
-
 
         public async Task<TReferenceEntity> AddRefAsync<TReferenceEntity, TDto>(TDto dto) where TReferenceEntity : class,
             IReferenceEntity where TDto : class

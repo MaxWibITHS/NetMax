@@ -28,12 +28,15 @@ namespace VOD.Common.DTOs
 
 		public string FilmUrl { get; set; }
 		public string FilmThumbnail { get; set; }
+		public string FilmMarquee { get; set; }
 
 		public List<string>? Genres { get; set; }
 
 		public List<string>? SimilarFilms { get; set; }
-		
-		public string? Director { get; set; }
+
+        public List<SimilarFilmDTO>? SimilarFilmObjekt { get; set; }
+
+        public string? Director { get; set; }
 
 	}
 

@@ -1,22 +1,43 @@
 ﻿@page "/film/{Id:int}"
 @inject IMembershipService Service
 
-<h3 class="text-center">Film</h3>
-
 <a class="btn btn-primary rounded-0 mb-1" href="/">
     <i class="oi oi-arrow-left"></i><span class="vertical-align">Back</span>
 </a>
 
-
 <Marquee Film="Model"/>
+
+ <div>
+@if(Model.SimilarFilms is not null)
+{
+    @foreach(var similar in Model.SimilarFilms)
+    {
+            var similarthumbnail = Films.Where(sf => sf.Title == similar);
+            foreach(var similarfilm in similarthumbnail)
+        {
+            SimilarThumbnail.Add(similarfilm);
+        }
+    }
+}
+        <div class="d-flex flex-wrap justify-content-center">
+        @foreach(var similarfilm in SimilarThumbnail)
+        {
+                <SimilarFilm Film="@similarfilm" />
+        }
+            </div>
+            </div>
 
 @code {
     [Parameter] public int? Id { get; set; }
     public FilmDTO Model { get; set; } = new();
+    public List<FilmDTO> Films { get; set; } = new();
+    public List<FilmDTO> SimilarThumbnail { get; set; } = new();
 
-
+    
     protected override async Task OnInitializedAsync()
     {
-        Model = await Service.GetFilmAsync(Id);
+        Model = await Service.GetFilmAsync(Id); 
+        Films = await Service.GetFilmsAsync(false);
     }
 }
+

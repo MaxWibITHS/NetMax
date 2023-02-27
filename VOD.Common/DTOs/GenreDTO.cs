@@ -17,10 +17,7 @@ namespace VOD.Common.DTOs
 		
 		public string Name { get; set; }
 		public List <FilmDTO>? Films { get; set; }
-		/// 
-		/// 
-		//public List<FilmGenreDTO>? FleraGenres { get; set; }
-
+	
 	}
 	public class CreateGenreDTO
 	{

@@ -1,24 +1,21 @@
-﻿
-
-@page "/"
+﻿@page "/"
 @inject IMembershipService Service
-<PageTitle>Dashboard</PageTitle>
+<PageTitle>NetMax</PageTitle>
 
 
-<h1>Dashboard</h1>
+<h2 class="red-text" style="color: red;">NetMax.</h2>
 
 
-
-<div class="d-flex flex-wrap justify-content-center">
+<div class="border border-danger d-flex flex-wrap justify-content-center">
     @foreach (var film in Films)
     {
         <FilmCard Film="@film" />
     }
 </div>
 
-
 @code{
     public List <FilmDTO> Films {get; set;} = new();
+    public List<GenreDTO> Genres { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {

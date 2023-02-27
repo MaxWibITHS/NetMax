@@ -9,10 +9,6 @@ namespace VOD.Common.DTOs
 {
     public class DirectorDTO
     {
-		//public DirectorDTO()
-		//{
-		//	Films = new List<FilmDTO>();
-		//}
 		public int Id { get; set; }
 	
 		public string Name { get; set; }

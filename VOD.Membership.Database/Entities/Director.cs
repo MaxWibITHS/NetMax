@@ -9,10 +9,6 @@ namespace VOD.Database.Entities
 {
     public class Director : IEntity
     {
-        //public Director()
-        //{
-        //    Films = new HashSet<Film>();
-        //}
         public int Id { get; set; }
         [Required]
         [StringLength(40, ErrorMessage = "The name is too long")]

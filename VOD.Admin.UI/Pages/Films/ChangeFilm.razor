@@ -54,19 +54,10 @@
                 <InputText id="FilmThumbnail" class="form-control me-2" @bind-Value="Model.FilmThumbnail" placeholder="Film Thumbnail"></InputText>
                 <ValidationMessage For="@(() => Model.FilmUrl)" />
             </div>
-
-            @*<InputSelect @bind-Value="Model.Genres" class="form-control mb-3">
-                <option value=0>Genre ...</option>
-                @if (Genres != null)
-                {
-                    foreach (var genre in Genres)
-                    {
-                        <option value="@genre.Id">@genre.Name</option>
-                    }
-                }
-            </InputSelect>*@
-
-      
+            <div class="mb-3">
+                <InputText id="FilmMarquee" class="form-control me-2" @bind-Value="Model.FilmMarquee" placeholder="Film Marquee"></InputText>
+                <ValidationMessage For="@(() => Model.FilmUrl)" />
+            </div>
             <div class="mb-3">
                 <label>
                     <InputCheckbox @bind-Value="Model.Free" />

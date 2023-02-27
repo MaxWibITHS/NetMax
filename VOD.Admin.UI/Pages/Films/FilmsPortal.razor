@@ -65,53 +65,8 @@
 
       protected override async Task OnInitializedAsync()
     {
-
-        //VISAR HELA LISTAN
          Alert = string.Empty;
          Model = await AdminService.GetAsync<FilmDTO>($"film?freeOnly=false");
-
-
-        //var course = await AdminService.SingleAsync<FilmDTO>($"film/1");
-
-
-        //await AdminService.CreateAsync<CreateFilmDTO>($"film", new CreateFilmDTO
-        //    {
-        //        Title = "MinNyaTitel",
-        //        Released = new DateTime(2021, 01, 01),
-        //        DirectorId = 1,
-        //        Free = true,
-        //        Description = "Hej på dig",
-        //        Duration = "1.23.01",
-        //        FilmUrl = "https://www.youtube.com/",
-        //        FilmThumbnail = "....",
-
-        //    });
-
-        //Model = await AdminService.GetAsync<FilmDTO>($"film?freeOnly=false");
-
-
-
-
-        //await AdminService.EditAsync<FilmEditDTO>($"film/3", 
-        //new FilmEditDTO
-        //    {
-        //        Id = 3,
-        //        Title = "MinuppdateradeTitel",
-        //        Released = new DateTime(2015, 02, 03),
-        //        DirectorId = 1,
-        //        Free = true,
-        //        Description = "Uppdaterad",
-        //        Duration = "1.23.01",
-        //        FilmUrl = "https://www.youtube.com/",
-        //        FilmThumbnail = "....",
-
-        //    });
-
-        //Model = await AdminService.GetAsync<FilmDTO>($"film?freeOnly=false");
-
-
-
-        //await AdminService.DeleteAsync<FilmDTO>($"film/3");
 
     }
 }

@@ -12,8 +12,8 @@ using VOD.Database.Contexts;
 namespace VOD.Database.Migrations
 {
     [DbContext(typeof(VODContext))]
-    [Migration("20230220132833_CreateDB")]
-    partial class CreateDB
+    [Migration("20230223141348_CreateDb")]
+    partial class CreateDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,8 +63,10 @@ namespace VOD.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FilmMarquee")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FilmThumbnail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilmUrl")
@@ -175,7 +177,7 @@ namespace VOD.Database.Migrations
                         .IsRequired();
 
                     b.HasOne("VOD.Database.Entities.Film", "Similar")
-                        .WithMany()
+                        .WithMany("SimilarFilmObjekt")
                         .HasForeignKey("SimilarFilmId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -192,6 +194,8 @@ namespace VOD.Database.Migrations
 
             modelBuilder.Entity("VOD.Database.Entities.Film", b =>
                 {
+                    b.Navigation("SimilarFilmObjekt");
+
                     b.Navigation("SimilarFilms");
                 });
 #pragma warning restore 612, 618
